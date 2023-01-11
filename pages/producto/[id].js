@@ -2,5 +2,9 @@ import React from 'react'
 import ProductDetails from '../../components/ProductDetails'
 
 export default function () {
-  return <ProductDetails />
+  return (
+    <div className='px-10'>
+      <ProductDetails />
+    </div>
+  )
 }

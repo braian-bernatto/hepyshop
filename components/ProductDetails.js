@@ -3,7 +3,7 @@ import React from 'react'
 
 const ProductDetails = () => {
   return (
-    <div className='w-full flex p-10 gap-2'>
+    <div className='w-full flex p-10 gap-2 bg-white rounded'>
       <section className='flex flex-col flex-wrap gap-5'>
         <Image
           width={500}

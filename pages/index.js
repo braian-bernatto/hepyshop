@@ -2,7 +2,7 @@ import Product from '../components/Product'
 
 export default function Home() {
   return (
-    <>
+    <div className='bg-white rounded mx-10'>
       <h1 className='w-full text-center pt-5 text-2xl font-bold text-slate-500'>
         Ejogua la reipotava, para eso trabajas...
       </h1>
@@ -16,6 +16,6 @@ export default function Home() {
         <Product item={1} />
         <Product item={1} />
       </div>
-    </>
+    </div>
   )
 }

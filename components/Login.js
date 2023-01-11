@@ -2,19 +2,21 @@ import React, { useEffect, useState } from 'react'
 import { ErrorMessage, Field, Form, Formik } from 'formik'
 import * as Yup from 'yup'
 import clienteAxios from '../config/axios'
+import Link from 'next/link'
+import { useAtom } from 'jotai'
+import { usuarioAtom } from '../store'
+import CustomErrorMessage from './CustomErrorMessage'
+import Router from 'next/router'
 
 const Login = () => {
-  const [auth, setAuth] = useState(false)
-  const [usuario, setUsuario] = useState({
-    nombre: '',
-    aprobado: false
-  })
+  const [errorMsg, setErrorMsg] = useState(null)
+  const [usuario, setUsuario] = useAtom(usuarioAtom)
 
   const validationSchema = Yup.object().shape({
     correo: Yup.string()
-      .email('Ingresa un correo valido')
+      .email('Ingresa un correo válido')
       .required('El correo es obligatorio'),
-    password: Yup.string().required('El password es obligatorio')
+    password: Yup.string().required('La contraseña es obligatoria')
   })
 
   const handleSubmit = async values => {
@@ -23,17 +25,27 @@ const Login = () => {
       localStorage.setItem('token', token.data.token)
       console.log(token)
       setUsuario({
+        auth: true,
         nombre: token.data.nombre,
         aprobado: token.data.aprobado
       })
-      setAuth(true)
+      Router.push('/')
     } catch (error) {
+      setErrorMsg(error.response.data.msg)
+      setTimeout(() => {
+        setErrorMsg(null)
+      }, 3000)
       console.log(error.response.data)
     }
   }
 
   const logOut = () => {
     localStorage.removeItem('token')
+    setUsuario({
+      auth: false,
+      nombre: '',
+      aprobado: false
+    })
   }
 
   function parseJwt(token) {
@@ -57,80 +69,88 @@ const Login = () => {
     if (token) {
       const { nombre, aprobado } = parseJwt(token)
       setUsuario({
+        auth: true,
         nombre,
         aprobado
       })
-      setAuth(true)
     }
   }, [])
 
   return (
     <div className='flex justify-end gap-5 items-center'>
-      {auth ? (
+      {usuario.auth ? (
         <h1
-          className={`text-center shadow border rounded-md px-2 text-teal-500 relative ${
+          className={`text-center cursor-default shadow border rounded-md px-2 text-teal-500 relative ${
             usuario.aprobado && 'aprobado'
           }`}
         >
           {usuario.nombre}
         </h1>
       ) : (
-        <Formik
-          initialValues={{
-            correo: '',
-            password: ''
-          }}
-          onSubmit={async values => await handleSubmit(values)}
-          validationSchema={validationSchema}
-        >
-          <Form className='flex gap-3 items-center'>
-            <div className='relative'>
-              <Field
-                id='correo'
-                type='email'
-                name='correo'
-                className='border shadow rounded p-1 px-2 w-60 text-center'
-              />
-              <ErrorMessage
-                name='correo'
-                render={msg => (
-                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
-                    {msg}
-                  </p>
-                )}
-              />
-            </div>
-            <div className='relative'>
-              <Field
-                type='password'
-                name='password'
-                className='border shadow rounded p-1 px-2 w-60 text-center'
-              />
-              <ErrorMessage
-                name='password'
-                render={msg => (
-                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
-                    {msg}
-                  </p>
-                )}
-              />
-            </div>
+        <>
+          <Formik
+            initialValues={{
+              correo: '',
+              password: ''
+            }}
+            onSubmit={async values => await handleSubmit(values)}
+            validationSchema={validationSchema}
+          >
+            <Form className='flex gap-3 items-center'>
+              {errorMsg && <CustomErrorMessage msg={errorMsg} />}
+              <div className='relative'>
+                <Field
+                  id='correo'
+                  type='email'
+                  name='correo'
+                  className='border shadow rounded p-1 px-2 w-60 text-center'
+                />
+                <ErrorMessage
+                  name='correo'
+                  render={msg => (
+                    <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
+                      {msg}
+                    </p>
+                  )}
+                />
+              </div>
+              <div className='relative'>
+                <Field
+                  type='password'
+                  name='password'
+                  className='border shadow rounded p-1 px-2 w-60 text-center'
+                />
+                <ErrorMessage
+                  name='password'
+                  render={msg => (
+                    <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
+                      {msg}
+                    </p>
+                  )}
+                />
+              </div>
+              <button
+                type='submit'
+                className='rounded-full bg-slate-500 text-white px-2 shadow-md hover:bg-slate-400 hover:scale-105 transition-transform'
+              >
+                Iniciar Sesion
+              </button>
+            </Form>
+          </Formik>
+          <Link href={'/registro'}>
             <button
-              type='submit'
-              className='rounded-full bg-slate-500 text-white px-2 shadow-md hover:bg-pink-800 hover:scale-105 transition-transform'
+              type='button'
+              className='rounded-full bg-yellow-700 text-white px-2 shadow-md hover:bg-yellow-600 hover:scale-105 transition-transform'
             >
-              Iniciar Sesion
+              Registrarse
             </button>
-          </Form>
-        </Formik>
+          </Link>
+        </>
       )}
-      {auth && (
+      {usuario.auth && (
         <button
           className='rounded-full bg-slate-500 text-white px-2 shadow-md hover:bg-pink-800 hover:scale-105 transition-transform'
-          onClick={() => {
-            logOut()
-            setAuth(!auth)
-          }}
+          onClick={() => logOut()}
         >
           Cerrar Sesion
         </button>
