@@ -7,6 +7,7 @@ import { useAtom } from 'jotai'
 import { usuarioAtom } from '../store'
 import CustomErrorMessage from './CustomErrorMessage'
 import Router from 'next/router'
+import tokenAuth from '../config/tokenAuth'
 
 const Login = () => {
   const [errorMsg, setErrorMsg] = useState(null)
@@ -27,9 +28,11 @@ const Login = () => {
       setUsuario({
         auth: true,
         nombre: token.data.nombre,
-        aprobado: token.data.aprobado
+        aprobado: token.data.aprobado,
+        isAdmin: token.data.isAdmin
       })
       Router.push('/')
+      tokenAuth(token.data.token)
     } catch (error) {
       setErrorMsg(error.response.data.msg)
       setTimeout(() => {
@@ -40,11 +43,15 @@ const Login = () => {
   }
 
   const logOut = () => {
+    if (Router.pathname.split('/')[1] === 'admin') {
+      Router.push('/')
+    }
     localStorage.removeItem('token')
     setUsuario({
       auth: false,
       nombre: '',
-      aprobado: false
+      aprobado: false,
+      isAdmin: false
     })
   }
 
@@ -67,12 +74,14 @@ const Login = () => {
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (token) {
-      const { nombre, aprobado } = parseJwt(token)
+      const { nombre, aprobado, isAdmin } = parseJwt(token)
       setUsuario({
         auth: true,
         nombre,
-        aprobado
+        aprobado,
+        isAdmin
       })
+      tokenAuth(token)
     }
   }, [])
 
