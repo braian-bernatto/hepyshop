@@ -1,20 +1,80 @@
+import { useAtom } from 'jotai'
+import { useEffect } from 'react'
+import FiltroProductos from '../components/FiltroProductos'
 import Product from '../components/Product'
+import {
+  categoriasProductoAtom,
+  estadosProductoAtom,
+  productosAtom,
+  productosFiltradosAtom
+} from '../store'
+import clienteAxios from '../config/axios'
 
-export default function Home() {
+const getEstados = async () => {
+  try {
+    const estados = await clienteAxios(
+      `${process.env.backendURL}/estados-producto`
+    )
+    return estados.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getCategorias = async () => {
+  try {
+    const categorias = await clienteAxios(
+      `${process.env.backendURL}/categorias-producto`
+    )
+    return categorias.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+const getProductos = async () => {
+  try {
+    const productos = await clienteAxios(`${process.env.backendURL}/productos`)
+    return productos.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export async function getServerSideProps() {
+  return {
+    props: {
+      estados: await getEstados(),
+      categorias: await getCategorias(),
+      productosServer: await getProductos()
+    }
+  }
+}
+
+export default function Home({ estados, categorias, productosServer }) {
+  const [, setEstados] = useAtom(estadosProductoAtom)
+  const [, setCategorias] = useAtom(categoriasProductoAtom)
+  const [productos, setProductos] = useAtom(productosAtom)
+  const [productosFiltrados] = useAtom(productosFiltradosAtom)
+
+  useEffect(() => {
+    setEstados(estados)
+    setCategorias(categorias)
+    setProductos(productosServer)
+  }, [])
+
   return (
     <div className='bg-white rounded mx-10'>
       <h1 className='w-full text-center pt-5 text-2xl font-bold text-slate-500'>
         Ejogua la reipotava, para eso trabajas...
       </h1>
-      <div className='w-full flex flex-wrap gap-10 justify-center p-10'>
-        <Product item={1} />
-        <Product item={2} />
-        <Product item={3} />
-        <Product item={4} />
-        <Product item={5} />
-        <Product item={6} />
-        <Product item={1} />
-        <Product item={1} />
+      <div className='flex mb-10'>
+        <FiltroProductos />
+        <div className='flex flex-wrap gap-10 justify-center p-10'>
+          {productosFiltrados.map(producto => (
+            <Product key={producto.producto_id} data={producto} />
+          ))}
+        </div>
       </div>
     </div>
   )

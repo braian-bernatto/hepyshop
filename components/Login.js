@@ -82,6 +82,8 @@ const Login = () => {
         isAdmin
       })
       tokenAuth(token)
+    } else {
+      Router.push('/')
     }
   }, [])
 

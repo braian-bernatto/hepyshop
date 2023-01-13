@@ -3,6 +3,14 @@ const nextConfig = {
   reactStrictMode: true,
   env: {
     backendURL: 'http://localhost:4000'
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: '**'
+      }
+    ]
   }
 }
 
