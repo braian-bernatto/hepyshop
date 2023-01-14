@@ -6,7 +6,8 @@ import {
   categoriasProductoAtom,
   estadosProductoAtom,
   productosAtom,
-  productosFiltradosAtom
+  productosFiltradosAtom,
+  unidadesMedidaAtom
 } from '../store'
 import clienteAxios from '../config/axios'
 
@@ -41,25 +42,44 @@ const getProductos = async () => {
   }
 }
 
+const getUnidadesMedida = async () => {
+  try {
+    const unidades = await clienteAxios(
+      `${process.env.backendURL}/unidades-medida`
+    )
+    return unidades.data
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function getServerSideProps() {
   return {
     props: {
       estados: await getEstados(),
       categorias: await getCategorias(),
+      unidades: await getUnidadesMedida(),
       productosServer: await getProductos()
     }
   }
 }
 
-export default function Home({ estados, categorias, productosServer }) {
+export default function Home({
+  estados,
+  categorias,
+  unidades,
+  productosServer
+}) {
   const [, setEstados] = useAtom(estadosProductoAtom)
   const [, setCategorias] = useAtom(categoriasProductoAtom)
+  const [, setUnidades] = useAtom(unidadesMedidaAtom)
   const [productos, setProductos] = useAtom(productosAtom)
   const [productosFiltrados] = useAtom(productosFiltradosAtom)
 
   useEffect(() => {
     setEstados(estados)
     setCategorias(categorias)
+    setUnidades(unidades)
     setProductos(productosServer)
   }, [])
 

@@ -46,5 +46,6 @@ export const productosFiltradosAtom = atom(get => {
 })
 
 export const estadosProductoAtom = atom([])
+export const unidadesMedidaAtom = atom([])
 export const categoriasProductoAtom = atom([])
 export const productosAtom = atom([])

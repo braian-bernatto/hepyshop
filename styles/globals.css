@@ -42,3 +42,8 @@
 .breadcrumb li:last-of-type:after {
   content: '';
 }
+
+label:has(input[type='checkbox']:checked) {
+  background-color: #94a3b8;
+  color: white;
+}

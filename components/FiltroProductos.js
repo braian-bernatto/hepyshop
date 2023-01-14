@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   categoriasProductoAtom,
   estadosProductoAtom,
@@ -18,11 +18,11 @@ const FiltroProductos = () => {
     })
 
   return (
-    <div className='sticky h-full top-24 shadow flex flex-col flex-wrap gap-10 items-center px-5 py-20 text-slate-600'>
+    <div className='sticky h-full top-24 shadow flex flex-col flex-wrap gap-10 items-center px-5 py-20 text-slate-600 ml-2'>
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='nombre'
-          className='absolute -top-6 pb-1 left-0 bg-slate-300 rounded px-3'
+          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Nombre
         </label>
@@ -37,7 +37,7 @@ const FiltroProductos = () => {
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='estado'
-          className='absolute -top-6 pb-1 left-0 bg-slate-300 rounded px-3'
+          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Estado
         </label>
@@ -62,7 +62,7 @@ const FiltroProductos = () => {
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='categorias'
-          className='absolute -top-6 pb-1 left-0 bg-slate-300 rounded px-3'
+          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Categorías
         </label>
@@ -84,6 +84,18 @@ const FiltroProductos = () => {
           ))}
         </select>
       </div>
+      <button
+        className='rounded-full shadow-md px-5 border font-semibold transition hover:scale-105 hover:bg-slate-400 hover:text-white'
+        onClick={() =>
+          setFiltroProducto({
+            nombre: '',
+            estado: '',
+            categorias: ''
+          })
+        }
+      >
+        Limpiar opciones
+      </button>
     </div>
   )
 }

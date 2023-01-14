@@ -22,7 +22,7 @@ const ProductDetails = ({ datos }) => {
             {datos[0].categorias.map(categoria => (
               <li
                 key={categoria.categoria_producto_id}
-                className='rounded shadow-md px-3 relative cursor-pointer'
+                className='rounded shadow-md px-3 relative cursor-pointer hover:bg-slate-500 hover:text-white transition'
                 onClick={e => {
                   handleClick(e)
                   Router.push('/')
