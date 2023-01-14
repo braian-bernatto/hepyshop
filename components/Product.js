@@ -12,7 +12,7 @@ const Product = ({ data }) => {
         <h1 className='border-b w-full text-slate-500 text-center px-3 font-semibold'>
           {data.producto_nombre}
         </h1>
-        {usuario.auth && (
+        {usuario.auth && data.imagenes.length > 0 && (
           <Image
             width={500}
             height={500}

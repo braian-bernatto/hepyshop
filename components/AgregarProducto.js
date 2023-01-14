@@ -10,6 +10,7 @@ import {
   estadosProductoAtom,
   unidadesMedidaAtom
 } from '../store'
+import PreviewImage from './PreviewImage'
 
 const AgregarProducto = () => {
   const [estados] = useAtom(estadosProductoAtom)
@@ -53,11 +54,11 @@ const AgregarProducto = () => {
     foto: Yup.mixed()
       .nullable()
       .test('is-valid-type', 'El tipo de imagen no es la correcta', value => {
-        if (!value.length) return true
+        if (!value) return true
         return isValidType(value && value[0].name.toLowerCase())
       })
       .test('max-images', 'Cantidad máxima de imágenes 3', value => {
-        if (!value.length) return true
+        if (!value) return true
         return value && value.length < 4
       })
   })
@@ -67,9 +68,11 @@ const AgregarProducto = () => {
     for (let value in values) {
       formData.append(value, values[value])
     }
-    values.foto.forEach((photo, index) => {
-      formData.append(`foto`, values.foto[index])
-    })
+    if (values.foto.length) {
+      values.foto.forEach((photo, index) => {
+        formData.append(`foto`, values.foto[index])
+      })
+    }
     try {
       const respuesta = await clienteAxios.post('/producto', formData, {
         headers: {
@@ -103,17 +106,24 @@ const AgregarProducto = () => {
       >
         {({ values, setFieldValue, setFieldError }) => (
           <Form className='flex flex-col flex-wrap gap-7 items-center justify-center w-full py-5'>
-            <div className='relative'>
+            <div className='relative flex flex-col items-center gap-5'>
               <input
                 multiple
                 type='file'
                 name='foto'
                 accept={getAllowedExt()}
-                className='border shadow rounded p-1 px-2 w-60 text-center'
+                className='border shadow rounded p-1 px-2 w-60 text-center text-slate-500'
                 onChange={event => {
                   setFieldValue('foto', Array.from(event.currentTarget.files))
                 }}
               />
+              <div className='flex gap-5 w-full text-slate-500'>
+                {values.foto &&
+                  values.foto.map((image, index) => (
+                    <PreviewImage key={index} file={image} />
+                  ))}
+              </div>
+
               <ErrorMessage
                 name='foto'
                 render={msg => (
