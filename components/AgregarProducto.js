@@ -75,6 +75,7 @@ const AgregarProducto = () => {
         formData.append(`foto`, values.foto[index])
       })
     }
+    delete formData.foto
     try {
       const respuesta = await clienteAxios.post('/producto', formData, {
         headers: {
@@ -106,7 +107,7 @@ const AgregarProducto = () => {
         onSubmit={async values => await handleSubmit(values)}
         validationSchema={validationSchema}
       >
-        {({ values, setFieldValue, setFieldError }) => (
+        {({ values, setFieldValue }) => (
           <Form className='flex flex-col flex-wrap gap-5 items-center justify-center w-full py-5'>
             <div className='relative flex flex-col items-center gap-2'>
               <input
@@ -119,12 +120,14 @@ const AgregarProducto = () => {
                   setFieldValue('foto', Array.from(event.currentTarget.files))
                 }}
               />
-              <div className='flex flex-wrap gap-5 w-full justify-center text-slate-500'>
+              <ul className='flex flex-wrap gap-5 w-full justify-center text-slate-500'>
                 {values.foto &&
                   values.foto.map((image, index) => (
-                    <PreviewImage key={index} file={image} />
+                    <li key={index} className='relative flex cursor-pointer'>
+                      <PreviewImage file={image} />
+                    </li>
                   ))}
-              </div>
+              </ul>
 
               <ErrorMessage
                 name='foto'

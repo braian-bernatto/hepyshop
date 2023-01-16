@@ -1,6 +1,8 @@
+import { useAtom } from 'jotai'
 import React, { useEffect, useState } from 'react'
-import ProductDetails from '../../components/ProductDetails'
-import clienteAxios from '../../config/axios'
+import ProductDetails from '../../../components/ProductDetails'
+import clienteAxios from '../../../config/axios'
+import { productoActualAtom } from '../../../store'
 
 export const getServerSidePaths = async () => {
   const enlaces = await clienteAxios.get('/productos/enlaces')
@@ -23,10 +25,9 @@ export const getServerSideProps = async ({ params }) => {
 }
 
 export default function ({ datos }) {
-  const [productos, setProductos] = useState([])
-
+  const [, setProducto] = useAtom(productoActualAtom)
   useEffect(() => {
-    setProductos(productos)
+    setProducto(datos[0])
   }, [])
 
   return (

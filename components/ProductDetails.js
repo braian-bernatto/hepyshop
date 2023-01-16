@@ -96,7 +96,7 @@ const ProductDetails = ({ datos }) => {
           <div className='flex gap-5 w-full justify-center'>
             <button
               className='rounded-full border shadow-md px-3 relative cursor-pointer hover:bg-slate-500 hover:text-white transition'
-              onClick={e => {}}
+              onClick={() => Router.push(`${Router.asPath}/modificar`)}
             >
               Modificar
             </button>

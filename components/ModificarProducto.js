@@ -8,15 +8,21 @@ import { useAtom } from 'jotai'
 import {
   categoriasProductoAtom,
   estadosProductoAtom,
+  productoActualAtom,
   unidadesMedidaAtom
 } from '../store'
 import PreviewImage from './PreviewImage'
+import PreviewServerImage from './PreviewServerImage'
+import CustomSuccessMessage from './CustomSuccessMessage'
 
-const ModificarProducto = ({ item }) => {
+const ModificarProducto = () => {
+  const [producto] = useAtom(productoActualAtom)
   const [estados] = useAtom(estadosProductoAtom)
   const [unidades] = useAtom(unidadesMedidaAtom)
   const [categoriasAtom] = useAtom(categoriasProductoAtom)
   const [errorMsg, setErrorMsg] = useState(null)
+  const [eliminarFotos, setEliminarFotos] = useState([])
+  const [msg, setMsg] = useState('')
 
   const validFileExtensions = ['jpg', 'png', 'jpeg', 'svg', 'webp']
 
@@ -55,11 +61,16 @@ const ModificarProducto = ({ item }) => {
       .nullable()
       .test('is-valid-type', 'El tipo de imagen no es la correcta', value => {
         if (!value) return true
-        return isValidType(value && value[0].name.toLowerCase())
+        const name = (value.length && value[0].name) || ''
+        if (name == '') return true
+        return isValidType(name.toLowerCase())
       })
       .test('max-images', 'Cantidad máxima de imágenes 3', value => {
         if (!value) return true
-        return value && value.length < 4
+        return (
+          value &&
+          value.length + producto.imagenes.length - eliminarFotos.length < 4
+        )
       })
   })
 
@@ -68,18 +79,37 @@ const ModificarProducto = ({ item }) => {
     for (let value in values) {
       formData.append(value, values[value])
     }
+    //agregar fotos nuevas
     if (values.foto.length) {
       values.foto.forEach((photo, index) => {
         formData.append(`foto`, values.foto[index])
       })
     }
-    try {
-      const respuesta = await clienteAxios.post('/producto', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+
+    //listado de fotos a eliminar de la bd
+    if (eliminarFotos.length) {
+      eliminarFotos.forEach(foto => {
+        formData.append(`eliminar_foto`, foto)
       })
-      Router.push('/')
+    }
+
+    delete formData.foto
+    try {
+      const respuesta = await clienteAxios.put(
+        Router.asPath.replace('/modificar', ''),
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      )
+      if (respuesta) {
+        setMsg(respuesta.data.msg)
+        setTimeout(() => {
+          Router.push(Router.asPath.replace('/modificar', ''))
+        }, 2000)
+      }
     } catch (error) {
       console.log(error)
       setErrorMsg(error.response.data.msg)
@@ -91,20 +121,28 @@ const ModificarProducto = ({ item }) => {
   }
   return (
     <div className='flex flex-col gap-5'>
+      {msg && (
+        <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
+          <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
+          <CustomSuccessMessage msg={msg} size='text-2xl' />
+        </div>
+      )}
       {errorMsg && <CustomErrorMessage msg={errorMsg} />}
       <Formik
         initialValues={{
-          producto_nombre: '',
-          estado_producto_id: '',
-          producto_cantidad: '',
-          unidad_medida_id: '',
-          categorias: [],
+          producto_nombre: producto.producto_nombre,
+          estado_producto_id: producto.estado_producto_id,
+          producto_cantidad: producto.producto_cantidad,
+          unidad_medida_id: producto.unidad_medida_id,
+          categorias: producto.categorias.map(
+            categoria => categoria.categoria_producto_id
+          ),
           foto: ''
         }}
         onSubmit={async values => await handleSubmit(values)}
         validationSchema={validationSchema}
       >
-        {({ values, setFieldValue, setFieldError }) => (
+        {({ values, setFieldValue }) => (
           <Form className='flex flex-col flex-wrap gap-7 items-center justify-center w-full py-5'>
             <div className='relative flex flex-col items-center gap-5'>
               <input
@@ -117,12 +155,49 @@ const ModificarProducto = ({ item }) => {
                   setFieldValue('foto', Array.from(event.currentTarget.files))
                 }}
               />
-              <div className='flex gap-5 w-full text-slate-500'>
+              <ul className='flex gap-5 w-full text-slate-500'>
                 {values.foto &&
                   values.foto.map((image, index) => (
-                    <PreviewImage key={index} file={image} />
+                    <li key={index} className='relative flex cursor-pointer'>
+                      <PreviewImage file={image} />
+                    </li>
                   ))}
-              </div>
+              </ul>
+              <section>
+                <ul className='flex gap-5 w-full text-slate-500'>
+                  {producto &&
+                    producto.imagenes.map((imagen, index) => (
+                      <li
+                        key={index}
+                        className='relative flex cursor-pointer'
+                        onClick={() => {
+                          eliminarFotos.includes(imagen.imagen_url)
+                            ? setEliminarFotos([
+                                ...eliminarFotos.filter(
+                                  foto => foto != imagen.imagen_url
+                                )
+                              ])
+                            : setEliminarFotos([
+                                ...eliminarFotos,
+                                imagen.imagen_url
+                              ])
+                        }}
+                      >
+                        {eliminarFotos.includes(imagen.imagen_url) && (
+                          <span className='bg-gray-500 opacity-50 h-full rounded w-full absolute flex justify-center items-center text-5xl'>
+                            ❌
+                          </span>
+                        )}
+                        <PreviewServerImage
+                          file={`${
+                            process.env.backendURL
+                          }/${imagen.imagen_url.replace('public/', '')}`}
+                          setEliminarFotos={setEliminarFotos}
+                        />
+                      </li>
+                    ))}
+                </ul>
+              </section>
 
               <ErrorMessage
                 name='foto'
