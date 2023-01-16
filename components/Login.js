@@ -88,7 +88,9 @@ const Login = () => {
   }, [])
 
   return (
-    <div className='flex justify-end gap-5 items-center'>
+    <div
+      className={`flex flex-wrap w-full md:w-auto md:justify-end gap-5 items-center justify-center border-t md:border-0 pt-3 md:pt-0`}
+    >
       {usuario.auth ? (
         <h1
           className={`text-center cursor-default shadow border rounded-md px-2 text-teal-500 relative ${
@@ -98,7 +100,9 @@ const Login = () => {
           {usuario.nombre}
         </h1>
       ) : (
-        <>
+        <div
+          className={`flex justify-center items-center gap-3 w-full md:overflow-visible md:h-auto transition`}
+        >
           <Formik
             initialValues={{
               correo: '',
@@ -107,34 +111,34 @@ const Login = () => {
             onSubmit={async values => await handleSubmit(values)}
             validationSchema={validationSchema}
           >
-            <Form className='flex gap-3 items-center'>
+            <Form className='flex flex-col md:flex-row flex-wrap gap-7 md:gap-3 items-center border-r pr-7 text-xs md:text-base pb-2'>
               {errorMsg && <CustomErrorMessage msg={errorMsg} />}
-              <div className='relative'>
+              <div className='relative flex justify-center flex-col'>
                 <Field
                   id='correo'
                   type='email'
                   name='correo'
-                  className='border shadow rounded p-1 px-2 max-w-60 text-center'
+                  className='border shadow rounded p-1 px-2 w-52 md:w-56 text-center'
                 />
                 <ErrorMessage
                   name='correo'
                   render={msg => (
-                    <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
+                    <p className='text-pink-800 px-3 absolute -bottom-4 md:-bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                       {msg}
                     </p>
                   )}
                 />
               </div>
-              <div className='relative'>
+              <div className='relative flex justify-center flex-col'>
                 <Field
                   type='password'
                   name='password'
-                  className='border shadow rounded p-1 px-2 max-w-60 text-center'
+                  className='border shadow rounded p-1 px-2 w-52 md:w-56 text-center'
                 />
                 <ErrorMessage
                   name='password'
                   render={msg => (
-                    <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
+                    <p className='text-pink-800 px-3 absolute -bottom-4 md:-bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                       {msg}
                     </p>
                   )}
@@ -151,12 +155,12 @@ const Login = () => {
           <Link href={'/registro'}>
             <button
               type='button'
-              className='rounded-full bg-yellow-700 text-white px-2 shadow-md hover:bg-yellow-600 hover:scale-105 transition-transform'
+              className='rounded-full bg-yellow-700 text-white ml-3 px-2 shadow-md hover:bg-yellow-600 hover:scale-105 transition-transform'
             >
               Registrarse
             </button>
           </Link>
-        </>
+        </div>
       )}
       {usuario.auth && (
         <button

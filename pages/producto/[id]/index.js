@@ -31,7 +31,7 @@ export default function ({ datos }) {
   }, [])
 
   return (
-    <div className='px-10 mb-10'>
+    <div className='md:px-10 md:mb-10'>
       <ProductDetails datos={datos} />
     </div>
   )

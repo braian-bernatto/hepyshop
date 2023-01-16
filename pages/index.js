@@ -84,11 +84,11 @@ export default function Home({
   }, [])
 
   return (
-    <div className='bg-white rounded mx-10'>
+    <div className='bg-white rounded md:mx-10'>
       <h1 className='w-full text-center pt-5 text-2xl font-bold text-slate-500'>
         Ejogua la reipotava, para eso trabajas...
       </h1>
-      <div className='flex mb-10'>
+      <div className='flex flex-col md:flex-row md:mb-10'>
         <FiltroProductos />
         <div className='flex flex-wrap gap-10 justify-center p-10'>
           {productosFiltrados.map(producto => (

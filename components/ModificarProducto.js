@@ -149,7 +149,7 @@ const ModificarProducto = () => {
       >
         {({ values, setFieldValue }) => (
           <Form className='flex flex-col flex-wrap gap-7 items-center justify-center w-full py-5'>
-            <div className='relative flex flex-col items-center gap-5'>
+            <div className='relative w-full flex flex-col items-center gap-5'>
               <input
                 multiple
                 type='file'
@@ -160,16 +160,19 @@ const ModificarProducto = () => {
                   setFieldValue('foto', Array.from(event.currentTarget.files))
                 }}
               />
-              <ul className='flex gap-5 w-full text-slate-500'>
+              <ul className='flex flex-wrap justify-center gap-5 w-full text-slate-500 border-b pb-5'>
                 {values.foto &&
                   values.foto.map((image, index) => (
-                    <li key={index} className='relative flex cursor-pointer'>
+                    <li
+                      key={index}
+                      className='relative flex justify-center cursor-pointer'
+                    >
                       <PreviewImage file={image} />
                     </li>
                   ))}
               </ul>
               <section>
-                <ul className='flex gap-5 w-full text-slate-500'>
+                <ul className='flex flex-wrap justify-center gap-5 w-full text-slate-500'>
                   {producto &&
                     producto.imagenes.map((imagen, index) => (
                       <li
@@ -189,7 +192,7 @@ const ModificarProducto = () => {
                         }}
                       >
                         {eliminarFotos.includes(imagen.imagen_url) && (
-                          <span className='bg-gray-500 opacity-50 h-full rounded w-full absolute flex justify-center items-center text-5xl'>
+                          <span className='bg-gray-500 opacity-50 h-full rounded w-full absolute flex flex-wrap justify-center items-center text-5xl'>
                             ❌
                           </span>
                         )}

@@ -38,7 +38,7 @@ const index = () => {
   }, [])
 
   return (
-    <div className='bg-white rounded mx-10 flex flex-wrap justify-center p-10 gap-10 items-center'>
+    <div className='bg-white rounded md:mx-10 flex flex-wrap justify-center p-10 gap-10 items-center'>
       {msg && <CustomErrorMessage msg={msg} />}
       <h1 className='w-full text-center pt-5 text-2xl font-bold text-slate-500'>
         Listado de Usuarios

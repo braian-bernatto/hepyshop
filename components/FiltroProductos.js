@@ -18,18 +18,18 @@ const FiltroProductos = () => {
     })
 
   return (
-    <div className='sticky h-full top-24 shadow flex flex-col flex-wrap gap-10 items-center px-5 py-20 text-slate-600 ml-2'>
+    <div className='md:sticky h-full top-24 shadow flex md:flex-col flex-wrap gap-6 md:gap-10 items-center px-5 py-7 md:py-20 text-slate-600 ml-2'>
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='nombre'
-          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
+          className='absolute -top-4 md:-top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Nombre
         </label>
         <input
           name='nombre'
           type='text'
-          className='z-10 px-3 shadow rounded'
+          className='z-10 w-36 md:w-auto px-3 shadow rounded'
           onChange={handleChange}
           value={filtroProducto.nombre}
         />
@@ -37,14 +37,14 @@ const FiltroProductos = () => {
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='estado'
-          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
+          className='absolute -top-4 md:-top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Estado
         </label>
         <select
           name='estado'
           id='estado'
-          className='z-10 px-3 rounded shadow lowercase'
+          className='z-10 w-36 md:w-auto px-3 rounded shadow lowercase'
           onChange={handleChange}
           value={filtroProducto.estado}
         >
@@ -62,14 +62,14 @@ const FiltroProductos = () => {
       <div className='flex shadow rounded text-center relative'>
         <label
           htmlFor='categorias'
-          className='absolute -top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
+          className='absolute -top-4 md:-top-6 left-1 bg-slate-400 rounded-t px-3 text-white'
         >
           Categorías
         </label>
         <select
           name='categorias'
           id='categorias'
-          className='z-10 px-3 rounded shadow lowercase'
+          className='z-10 w-36 md:w-auto px-3 rounded shadow lowercase'
           onChange={handleChange}
           value={filtroProducto.categorias}
         >
