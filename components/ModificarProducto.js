@@ -338,7 +338,7 @@ const ModificarProducto = () => {
               type='submit'
               className='rounded-full bg-slate-500 text-white px-14 py-2 shadow-md hover:bg-slate-400 hover:scale-105 transition-transform'
             >
-              Guardar Producto
+              Modificar Producto
             </button>
           </Form>
         )}
