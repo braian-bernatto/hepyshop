@@ -7,6 +7,18 @@ export const usuarioAtom = atom({
   isAdmin: false
 })
 
+export const clearUsuarioAtom = atom(
+  get => get(usuarioAtom),
+  (get, set, newValue) => {
+    set(usuarioAtom, {
+      auth: false,
+      nombre: '',
+      aprobado: false,
+      isAdmin: false
+    })
+  }
+)
+
 export const filtroProductoAtom = atom({
   nombre: '',
   estado: '',

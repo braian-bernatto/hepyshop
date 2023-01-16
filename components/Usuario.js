@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-import React, { useState } from 'react'
-import clienteAxios from '../config/axios'
-=======
 import { useAtom } from 'jotai'
 import React, { useState } from 'react'
 import clienteAxios from '../config/axios'
 import { usuarioAtom } from '../store'
->>>>>>> cbd18835d120d0bc7b20c678f9497403a8008780
 import CustomSuccessMessage from './CustomSuccessMessage'
 
 const Usuario = ({
@@ -14,10 +9,7 @@ const Usuario = ({
 }) => {
   const [msg, setMsg] = useState(null)
   const [esAprobado, setEsAprobado] = useState(usuario_aprobado)
-<<<<<<< HEAD
-=======
   const [usuario, setUsuario] = useAtom(usuarioAtom)
->>>>>>> cbd18835d120d0bc7b20c678f9497403a8008780
   const aprobarUsuario = async (correo, aprobado) => {
     try {
       const resultado = await clienteAxios.post(`/usuario/aprobar`, {
@@ -25,15 +17,12 @@ const Usuario = ({
         aprobado
       })
       setEsAprobado(aprobado)
-<<<<<<< HEAD
-=======
       if (usuario_nombre === usuario.nombre) {
         setUsuario({
           ...usuario,
           aprobado: aprobado
         })
       }
->>>>>>> cbd18835d120d0bc7b20c678f9497403a8008780
       setMsg(resultado.data)
       setTimeout(() => {
         setMsg(null)

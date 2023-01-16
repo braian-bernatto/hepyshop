@@ -294,11 +294,7 @@ const ModificarProducto = () => {
               <FieldArray
                 name='categorias'
                 render={arrayHelpers => (
-<<<<<<< HEAD
-                  <div className='flex text-center flex-wrap gap-5 lowercase shadow rounded-lg p-5'>
-=======
                   <div className='flex text-center flex-wrap gap-5 lowercase shadow rounded-lg p-5 justify-center'>
->>>>>>> cbd18835d120d0bc7b20c678f9497403a8008780
                     {categoriasAtom.map(categoria => (
                       <label
                         key={categoria.categoria_producto_id}
@@ -342,11 +338,7 @@ const ModificarProducto = () => {
               type='submit'
               className='rounded-full bg-slate-500 text-white px-14 py-2 shadow-md hover:bg-slate-400 hover:scale-105 transition-transform'
             >
-<<<<<<< HEAD
-              Guardar Producto
-=======
               Modificar Producto
->>>>>>> cbd18835d120d0bc7b20c678f9497403a8008780
             </button>
           </Form>
         )}
