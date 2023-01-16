@@ -127,7 +127,12 @@ const ModificarProducto = () => {
           <CustomSuccessMessage msg={msg} size='text-2xl' />
         </div>
       )}
-      {errorMsg && <CustomErrorMessage msg={errorMsg} />}
+      {errorMsg && (
+        <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
+          <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
+          <CustomErrorMessage msg={errorMsg} />
+        </div>
+      )}
       <Formik
         initialValues={{
           producto_nombre: producto.producto_nombre,

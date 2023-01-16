@@ -5,12 +5,14 @@ import React, { useEffect, useState } from 'react'
 import clienteAxios from '../config/axios'
 import { filtroProductoAtom, usuarioAtom } from '../store'
 import Confirmar from './Confirmar'
+import CustomErrorMessage from './CustomErrorMessage'
 import CustomSuccessMessage from './CustomSuccessMessage'
 
 const ProductDetails = ({ datos }) => {
   const [showDelete, setShowDelete] = useState(false)
   const [confirmar, setConfirmar] = useState(null)
   const [msg, setMsg] = useState('')
+  const [errorMsg, setErrorMsg] = useState('')
 
   const [usuario] = useAtom(usuarioAtom)
   const [, setFiltroProducto] = useAtom(filtroProductoAtom)
@@ -31,7 +33,11 @@ const ProductDetails = ({ datos }) => {
           Router.push('/')
         }, 2000)
       } catch (error) {
-        console.log(error)
+        console.log(error.response.data.msg)
+        setErrorMsg(error.response.data.msg)
+        setTimeout(() => {
+          setErrorMsg('')
+        }, 2000)
       }
     }
 
@@ -46,6 +52,12 @@ const ProductDetails = ({ datos }) => {
         <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
           <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
           <CustomSuccessMessage msg={msg} size='text-2xl' />
+        </div>
+      )}
+      {errorMsg && (
+        <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
+          <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
+          <CustomErrorMessage msg={errorMsg} />
         </div>
       )}
       {showDelete && (
@@ -92,7 +104,7 @@ const ProductDetails = ({ datos }) => {
         </>
       )}
       <section className='self-start h-full flex flex-wrap justify-start items-start gap-5 sticky top-24'>
-        {usuario.auth && (
+        {(usuario.aprobado || usuario.isAdmin) && (
           <div className='flex gap-5 w-full justify-center'>
             <button
               className='rounded-full border shadow-md px-3 relative cursor-pointer hover:bg-slate-500 hover:text-white transition'
