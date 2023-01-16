@@ -1,10 +1,17 @@
 import { useAtom } from 'jotai'
 import Image from 'next/image'
-import Router from 'next/router'
-import React from 'react'
+import Router, { useRouter } from 'next/router'
+import React, { useEffect, useState } from 'react'
+import clienteAxios from '../config/axios'
 import { filtroProductoAtom, usuarioAtom } from '../store'
+import Confirmar from './Confirmar'
+import CustomSuccessMessage from './CustomSuccessMessage'
 
 const ProductDetails = ({ datos }) => {
+  const [showDelete, setShowDelete] = useState(false)
+  const [confirmar, setConfirmar] = useState(null)
+  const [msg, setMsg] = useState('')
+
   const [usuario] = useAtom(usuarioAtom)
   const [, setFiltroProducto] = useAtom(filtroProductoAtom)
   const handleClick = e =>
@@ -14,8 +21,40 @@ const ProductDetails = ({ datos }) => {
       categorias: e.target.innerText.toLowerCase()
     })
 
+  useEffect(() => {
+    const eliminarProducto = async () => {
+      const id = Router.asPath.split('/').pop()
+      try {
+        const mensaje = await clienteAxios.delete(`/producto/${id}`)
+        setMsg(mensaje.data.msg)
+        setTimeout(() => {
+          Router.push('/')
+        }, 2000)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    if (confirmar) {
+      eliminarProducto()
+    }
+  }, [confirmar])
+
   return (
     <div className='w-full flex flex-wrap px-10 py-5 gap-2 bg-white rounded'>
+      {msg && (
+        <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
+          <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
+          <CustomSuccessMessage msg={msg} size='text-2xl' />
+        </div>
+      )}
+      {showDelete && (
+        <Confirmar
+          datos={datos[0].producto_nombre}
+          setConfirmar={setConfirmar}
+          setShowDelete={setShowDelete}
+        />
+      )}
       {usuario.auth && (
         <>
           <ul className='w-full flex gap-10 px-3 pb-8 breadcrumb text-slate-600 lowercase'>
@@ -52,7 +91,23 @@ const ProductDetails = ({ datos }) => {
           </section>
         </>
       )}
-      <section className='self-start h-full flex flex-wrap justify-start items-start gap-10 sticky top-24'>
+      <section className='self-start h-full flex flex-wrap justify-start items-start gap-5 sticky top-24'>
+        {usuario.auth && (
+          <div className='flex gap-5 w-full justify-center'>
+            <button
+              className='rounded-full border shadow-md px-3 relative cursor-pointer hover:bg-slate-500 hover:text-white transition'
+              onClick={e => {}}
+            >
+              Modificar
+            </button>
+            <button
+              className='rounded-full border shadow-md px-3 relative cursor-pointer bg-red-800 opacity-50 text-white hover:scale-105 hover:opacity-100 transition'
+              onClick={() => setShowDelete(true)}
+            >
+              Eliminar
+            </button>
+          </div>
+        )}
         <h1 className='text-slate-500 text-center text-2xl border rounded-md bg-slate-100 p-2 font-semibold w-full shadow-md'>
           {datos[0].producto_nombre}
         </h1>

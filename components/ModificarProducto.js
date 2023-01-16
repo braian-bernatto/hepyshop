@@ -12,7 +12,7 @@ import {
 } from '../store'
 import PreviewImage from './PreviewImage'
 
-const AgregarProducto = () => {
+const ModificarProducto = ({ item }) => {
   const [estados] = useAtom(estadosProductoAtom)
   const [unidades] = useAtom(unidadesMedidaAtom)
   const [categoriasAtom] = useAtom(categoriasProductoAtom)
@@ -55,9 +55,7 @@ const AgregarProducto = () => {
       .nullable()
       .test('is-valid-type', 'El tipo de imagen no es la correcta', value => {
         if (!value) return true
-        const name = (value.length && value[0].name) || ''
-        if (name == '') return true
-        return isValidType(name.toLowerCase())
+        return isValidType(value && value[0].name.toLowerCase())
       })
       .test('max-images', 'Cantidad máxima de imágenes 3', value => {
         if (!value) return true
@@ -107,8 +105,8 @@ const AgregarProducto = () => {
         validationSchema={validationSchema}
       >
         {({ values, setFieldValue, setFieldError }) => (
-          <Form className='flex flex-col flex-wrap gap-5 items-center justify-center w-full py-5'>
-            <div className='relative flex flex-col items-center gap-2'>
+          <Form className='flex flex-col flex-wrap gap-7 items-center justify-center w-full py-5'>
+            <div className='relative flex flex-col items-center gap-5'>
               <input
                 multiple
                 type='file'
@@ -119,7 +117,7 @@ const AgregarProducto = () => {
                   setFieldValue('foto', Array.from(event.currentTarget.files))
                 }}
               />
-              <div className='flex flex-wrap gap-5 w-full justify-center text-slate-500'>
+              <div className='flex gap-5 w-full text-slate-500'>
                 {values.foto &&
                   values.foto.map((image, index) => (
                     <PreviewImage key={index} file={image} />
@@ -129,13 +127,13 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='foto'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
               />
             </div>
-            <div className='relative flex flex-col items-center'>
+            <div className='relative'>
               <Field
                 type='text'
                 name='producto_nombre'
@@ -145,13 +143,13 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='producto_nombre'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
               />
             </div>
-            <div className='relative flex flex-col items-center'>
+            <div className='relative'>
               <Field
                 as='select'
                 name='estado_producto_id'
@@ -170,13 +168,13 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='estado_producto_id'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
               />
             </div>
-            <div className='relative flex flex-col items-center'>
+            <div className='relative'>
               <Field
                 type='number'
                 name='producto_cantidad'
@@ -186,13 +184,13 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='producto_cantidad'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
               />
             </div>
-            <div className='relative flex flex-col items-center'>
+            <div className='relative'>
               <Field
                 as='select'
                 name='unidad_medida_id'
@@ -211,13 +209,13 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='unidad_medida_id'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
               />
             </div>
-            <div className='relative flex flex-col items-center'>
+            <div className='relative'>
               <FieldArray
                 name='categorias'
                 render={arrayHelpers => (
@@ -255,7 +253,7 @@ const AgregarProducto = () => {
               <ErrorMessage
                 name='categorias'
                 render={msg => (
-                  <p className='text-pink-800 text-center px-3 rounded-full bg-pink-100 w-full shadow shake'>
+                  <p className='text-pink-800 absolute -bottom-6 text-center rounded-full bg-pink-100 w-full shadow shake'>
                     {msg}
                   </p>
                 )}
@@ -274,4 +272,4 @@ const AgregarProducto = () => {
   )
 }
 
-export default AgregarProducto
+export default ModificarProducto
