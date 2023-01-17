@@ -1,13 +1,27 @@
 /** @type {import('next').NextConfig} */
+// const nextConfig = {
+//   reactStrictMode: true,
+//   env: {
+//     backendURL: 'http://localhost:4000'
+//   },
+//   images: {
+//     remotePatterns: [
+//       {
+//         protocol: 'http',
+//         hostname: '**'
+//       }
+//     ]
+//   }
+// }
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    backendURL: 'http://localhost:4000'
+    backendURL: 'https://www.hepyshop.bernatto.xyz'
   },
   images: {
     remotePatterns: [
       {
-        protocol: 'http',
+        protocol: 'https',
         hostname: '**'
       }
     ]
