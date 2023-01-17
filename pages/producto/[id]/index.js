@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import ProductDetails from '../../../components/ProductDetails'
 import clienteAxios from '../../../config/axios'
 import { productoActualAtom } from '../../../store'

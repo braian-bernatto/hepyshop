@@ -15,8 +15,8 @@ import PreviewImage from './PreviewImage'
 import PreviewServerImage from './PreviewServerImage'
 import CustomSuccessMessage from './CustomSuccessMessage'
 
-const ModificarProducto = () => {
-  const [producto] = useAtom(productoActualAtom)
+const ModificarProducto = ({ producto }) => {
+  // const [producto] = useAtom(productoActualAtom)
   const [estados] = useAtom(estadosProductoAtom)
   const [unidades] = useAtom(unidadesMedidaAtom)
   const [categoriasAtom] = useAtom(categoriasProductoAtom)
