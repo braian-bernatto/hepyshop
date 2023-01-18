@@ -47,7 +47,7 @@ const ProductDetails = ({ datos }) => {
   }, [confirmar])
 
   return (
-    <div className='w-full flex flex-wrap px-10 py-5 gap-2 bg-white rounded'>
+    <div className='grid sm:grid-cols-2 px-10 py-5 gap-2 bg-white rounded'>
       {msg && (
         <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
           <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
@@ -69,7 +69,7 @@ const ProductDetails = ({ datos }) => {
       )}
       {usuario.auth && (
         <>
-          <ul className='w-full flex gap-10 px-3 pb-8 breadcrumb text-slate-600 lowercase'>
+          <ul className='sm:col-span-2 w-full flex gap-10 px-3 pb-8 breadcrumb text-slate-600 lowercase'>
             {datos[0].categorias.map(categoria => (
               <li
                 key={categoria.categoria_producto_id}
@@ -84,7 +84,7 @@ const ProductDetails = ({ datos }) => {
             ))}
           </ul>
           <section>
-            <ul className='flex flex-col flex-wrap gap-5'>
+            <ul className='flex flex-col flex-wrap items-center gap-5'>
               {datos[0].imagenes.map((imagen, index) => (
                 <li key={index}>
                   <Image
@@ -103,8 +103,8 @@ const ProductDetails = ({ datos }) => {
           </section>
         </>
       )}
-      <section className='self-start h-full flex flex-wrap justify-start items-start gap-5 sticky top-24'>
-        <h1 className='text-slate-500 text-center text-2xl border rounded-md bg-slate-100 p-2 font-semibold w-full shadow-md'>
+      <section className='self-start flex flex-wrap justify-start gap-5 sticky top-24'>
+        <h1 className='text-slate-500 text-center md:text-2xl border rounded-md bg-slate-100 p-2 font-semibold w-full shadow-md'>
           {datos[0].producto_nombre}
         </h1>
         <h2 className='shadow-md font-bold p-2 rounded text-yellow-500 border-2 self-start'>
@@ -114,7 +114,7 @@ const ProductDetails = ({ datos }) => {
           {datos[0].producto_cantidad} {datos[0].unidad_medida_descri}
         </h2>
         {(usuario.aprobado || usuario.isAdmin) && (
-          <div className='flex gap-5 w-full justify-center pb-5'>
+          <div className='flex gap-5 w-full justify-center pb-5 border-t pt-5'>
             <button
               className='rounded-full border shadow-md px-3 relative cursor-pointer hover:bg-slate-500 hover:text-white transition'
               onClick={() => Router.push(`${Router.asPath}/modificar`)}
