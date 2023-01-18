@@ -118,7 +118,7 @@ const Login = () => {
                   id='correo'
                   type='email'
                   name='correo'
-                  className='border shadow rounded p-1 px-2 w-52 md:w-56 text-center'
+                  className='border shadow rounded p-1 px-2 w-52 md:w-60 text-center'
                 />
                 <ErrorMessage
                   name='correo'
@@ -133,7 +133,7 @@ const Login = () => {
                 <Field
                   type='password'
                   name='password'
-                  className='border shadow rounded p-1 px-2 w-52 md:w-56 text-center'
+                  className='border shadow rounded p-1 px-2 w-52 md:w-60 text-center'
                 />
                 <ErrorMessage
                   name='password'
