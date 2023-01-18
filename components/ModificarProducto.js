@@ -8,7 +8,6 @@ import { useAtom } from 'jotai'
 import {
   categoriasProductoAtom,
   estadosProductoAtom,
-  productoActualAtom,
   unidadesMedidaAtom
 } from '../store'
 import PreviewImage from './PreviewImage'

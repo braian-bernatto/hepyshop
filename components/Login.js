@@ -111,7 +111,7 @@ const Login = () => {
             onSubmit={async values => await handleSubmit(values)}
             validationSchema={validationSchema}
           >
-            <Form className='flex flex-col md:flex-row flex-wrap gap-7 md:gap-3 items-center border-r pr-7 text-xs md:text-base pb-2'>
+            <Form className='flex flex-col md:flex-row flex-wrap gap-7 md:gap-3 items-center border-r pr-7 text-xs md:text-base'>
               {errorMsg && <CustomErrorMessage msg={errorMsg} />}
               <div className='relative flex justify-center flex-col'>
                 <Field

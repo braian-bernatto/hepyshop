@@ -10,20 +10,22 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const [usuario] = useAtom(usuarioAtom)
   return (
-    <section className='w-full border-2 shadow-md rounded-md flex flex-wrap items-center justify-between p-3 sticky top-0 z-50 bg-white'>
+    <section className='w-full shadow-md rounded-b flex flex-wrap items-center justify-between p-3 sticky top-0 z-50 bg-white'>
       <Link href={'/'}>
         <Image
           src={'/next.svg'}
           width={20}
           height={20}
-          className='w-20 h-14'
+          className='w-20 md:h-14'
           alt='hepyshop logo'
         />
       </Link>
       <div
         className={`justify-center items-center gap-3 w-full md:w-auto ${
           usuario.auth && 'p-5'
-        } md:p-0 ${menuOpen ? ' flex ' : 'hidden'} overflow-hidden`}
+        } md:p-0 ${
+          menuOpen ? ' flex ' : 'hidden overflow-hidden'
+        } md:flex overflow-visible`}
       >
         {usuario.isAdmin && <AdminOptions />}
         {(usuario.aprobado || usuario.isAdmin) && (
@@ -37,13 +39,15 @@ const Header = () => {
 
       <div
         className={`md:flex md:overflow-visible ${
-          menuOpen ? 'w-full flex ' : 'hidden overflow-hidden'
+          menuOpen
+            ? 'w-full flex '
+            : 'hidden overflow-hidden md:overflow-visible'
         }`}
       >
         <Login />
       </div>
       <button
-        className='md:hidden absolute right-2 top-3 rounded bg-white shadow-md border w-12 h-12 flex justify-center items-center'
+        className='md:hidden absolute right-2 top-1 rounded bg-white shadow-md border w-8 h-8 flex justify-center items-center'
         onClick={() => setMenuOpen(!menuOpen)}
       >
         {!menuOpen ? (
