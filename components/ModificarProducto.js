@@ -262,6 +262,7 @@ const ModificarProducto = ({ producto }) => {
                 name='producto_cantidad'
                 placeholder='Cantidad'
                 className='border shadow rounded p-1 px-2 w-60 text-center'
+                min={0}
               />
               <ErrorMessage
                 name='producto_cantidad'

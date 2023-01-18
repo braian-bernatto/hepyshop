@@ -26,7 +26,9 @@ export const filtroProductoAtom = atom({
 })
 
 export const productosFiltradosAtom = atom(get => {
-  let productos = get(productosAtom)
+  let productos = get(productosAtom).sort(
+    (a, b) => b.producto_id - a.producto_id
+  )
 
   if (get(filtroProductoAtom).nombre != '') {
     productos = productos.filter(product =>
