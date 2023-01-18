@@ -11,11 +11,13 @@ import {
   unidadesMedidaAtom
 } from '../store'
 import PreviewImage from './PreviewImage'
+import CustomSuccessMessage from './CustomSuccessMessage'
 
 const AgregarProducto = () => {
   const [estados] = useAtom(estadosProductoAtom)
   const [unidades] = useAtom(unidadesMedidaAtom)
   const [categoriasAtom] = useAtom(categoriasProductoAtom)
+  const [msg, setMsg] = useState('')
   const [errorMsg, setErrorMsg] = useState(null)
 
   const validFileExtensions = ['jpg', 'png', 'jpeg', 'svg', 'webp']
@@ -82,7 +84,12 @@ const AgregarProducto = () => {
           'Content-Type': 'multipart/form-data'
         }
       })
-      Router.push('/')
+      if (respuesta) {
+        setMsg('Producto agregado con éxito')
+        setTimeout(() => {
+          Router.push('/')
+        }, 1000)
+      }
     } catch (error) {
       console.log(error)
       setErrorMsg(error.response.data.msg)
@@ -94,6 +101,12 @@ const AgregarProducto = () => {
   }
   return (
     <div className='flex flex-col gap-5'>
+      {msg && (
+        <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
+          <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
+          <CustomSuccessMessage msg={msg} size='text-2xl' />
+        </div>
+      )}
       {errorMsg && (
         <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
           <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>

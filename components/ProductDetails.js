@@ -31,7 +31,7 @@ const ProductDetails = ({ datos }) => {
         setMsg(mensaje.data.msg)
         setTimeout(() => {
           Router.push('/')
-        }, 2000)
+        }, 1000)
       } catch (error) {
         console.log(error.response.data.msg)
         setErrorMsg(error.response.data.msg)

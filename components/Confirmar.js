@@ -4,7 +4,7 @@ const Confirmar = ({ datos, setConfirmar, setShowDelete }) => {
   return (
     <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center z-50'>
       <span className='absolute w-full h-full bg-gray-500 opacity-50 z-0'></span>
-      <div className='bg-white rounded z-10 p-5 flex flex-col gap-10 w-96 text-center shadow-md'>
+      <div className='bg-white rounded z-10 p-5 flex flex-col gap-10 w-72 md:w-96 text-center shadow-md'>
         <h1 className='text-slate-600 border-b'>
           Confirmas que quieres eliminar <strong>{datos}</strong>?
         </h1>

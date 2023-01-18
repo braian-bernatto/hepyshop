@@ -107,14 +107,14 @@ const ModificarProducto = ({ producto }) => {
         setMsg(respuesta.data.msg)
         setTimeout(() => {
           Router.push(Router.asPath.replace('/modificar', ''))
-        }, 2000)
+        }, 1000)
       }
     } catch (error) {
       console.log(error)
       setErrorMsg(error.response.data.msg)
       setTimeout(() => {
         setErrorMsg(null)
-      }, 3000)
+      }, 2000)
       console.log(error)
     }
   }
