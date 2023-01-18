@@ -33,9 +33,9 @@ const Usuario = ({
   }
 
   return (
-    <div className='border rounded px-5 gap-5 py-1 shadow flex relative text-slate-600'>
+    <div className='border rounded px-5 gap-5 py-1 shadow flex flex-wrap w-full items-center justify-center relative text-slate-600'>
       {msg && (
-        <div className='absolute left-0 -top-7 z-50 w-full'>
+        <div className='absolute -top-10 md:-top-7 z-50'>
           <CustomSuccessMessage msg={msg} />
         </div>
       )}
