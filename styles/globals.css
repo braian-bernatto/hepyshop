@@ -39,6 +39,12 @@
   height: 10px;
 }
 
+@media only screen and (max-width: 641px) {
+  .breadcrumb li::after {
+    right: -15px;
+  }
+}
+
 .breadcrumb li:last-of-type:after {
   content: '';
 }

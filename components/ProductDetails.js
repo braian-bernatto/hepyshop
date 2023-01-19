@@ -47,7 +47,7 @@ const ProductDetails = ({ datos }) => {
   }, [confirmar])
 
   return (
-    <div className='grid sm:grid-cols-2 px-10 py-5 gap-2 bg-white rounded'>
+    <div className='grid grid-cols-1 sm:grid-cols-2 px-10 py-5 gap-2 bg-white rounded'>
       {msg && (
         <div className='flex w-full h-full justify-center items-center fixed top-0 left-0 z-50'>
           <span className='absolute w-full h-full bg-gray-500 opacity-70 z-0'></span>
@@ -69,7 +69,7 @@ const ProductDetails = ({ datos }) => {
       )}
       {usuario.auth && (
         <>
-          <ul className='sm:col-span-2 w-full flex gap-10 px-3 pb-8 breadcrumb text-slate-600 lowercase'>
+          <ul className='overflow-y-auto sm:col-span-2 w-full flex gap-x-5 sm:gap-x-10 gap-y-2 px-3 pb-8 breadcrumb text-slate-600 lowercase'>
             {datos[0].categorias.map(categoria => (
               <li
                 key={categoria.categoria_producto_id}
